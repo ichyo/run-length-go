@@ -63,14 +63,14 @@ func Encode(b []byte) ([]byte, error) {
 func Decode(b []byte) ([]byte, error) {
 	var res bytes.Buffer
 	for i := 0; i < len(b); i++ {
-		if b[i]+1 <= literalMaxLen {
+		if b[i] <= literalMaxLen-1 {
 			cnt := int(b[i] + 1)
 			for j := 0; j < cnt; j++ {
 				res.WriteByte(b[i+j+1])
 			}
 			i += cnt
 		} else {
-			cnt := 257 - int(b[i])
+			cnt := 255 - int(b[i]) + 2
 			for j := 0; j < cnt; j++ {
 				res.WriteByte(b[i+1])
 			}
